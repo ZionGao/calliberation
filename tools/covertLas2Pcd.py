@@ -11,7 +11,7 @@ import laspy.header
 
 def getCloud():
 
-    f = laspy.file.File("pointCloud/10.las",mode="r")
+    f = laspy.file.File("pointCloud/11.las",mode="r")
 
 
     z = f.get_points()
@@ -51,7 +51,7 @@ def getCloud():
 def main():
 
     cloud=getCloud()
-    pcl.save(cloud,"pointCloud/10.pcd")
+    pcl.save(cloud,"pointCloud/11.pcd")
 
 
 if __name__ == '__main__':

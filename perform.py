@@ -43,8 +43,9 @@ def callibrate_camera(file):
     obj_points = []  # 存储3D点
     img_points = []  # 存储2D点
 
-    images = glob.glob("data/*.jpg")
-    i = 0;
+    images = glob.glob(file)
+    # images = glob.glob("data/*.jpg")
+    i = 0
     print("读入图像{}张".format(len(images)))
     # cv2.namedWindow("image")
     for fname in images:
@@ -113,28 +114,42 @@ def callibrate_camera_and_lidar(mtx,dist):
             pixels = np.row_stack((pixels, tmpPixel))
             count += 1
 
-    object_3d_points = np.array((
-        [2000, 22, -51],
-        [1986, 422, -58],
-        [2017, -382, -49],
-        [2959, 454, 252],
-        [2981, 52, 232],
-        [2985, -358, 242],
-        [3906, 445, 533],
-        [3968, -374, 517]
-    ), dtype=np.double)
-    object_2d_point = np.array((
-        [824, 604],
-        [542, 601],
-        [1106, 603],
-        [627, 465],
-        [820, 467],
-        [1012, 467],
-        [685, 383],
-        [974, 387]
-    ), dtype=np.double)
-    # object_3d_points = points
-    # object_2d_point = pixels
+    # object_3d_points = np.array((
+    #     # [5537,284,234],
+    #     [5502, 520, 218],
+    #     [13743, -618, 1775],
+    #     [7109, -873, 311],
+    #     [15503, 3359, 720],
+    #     [16049, 3958, 123],
+    #     # [6510,-1463,692],
+    #     [5377, 259, -537],
+    #     [6921, -1061, 463]
+    #
+    #     # [5345,518,-548]
+    #     # [22129,3010,3189]
+    # ), dtype=np.double)
+    # object_2d_point = np.array((
+    #     # [1817,1050],
+    #     [1686, 1044],
+    #     [2091, 789],
+    #     [2303, 1044],
+    #     [1332, 1003],
+    #     [1275, 1132],
+    #     # [2600,861],
+    #     [1822, 1467],
+    #     [2341, 975]
+    #
+    #     # [2638,1286]
+    #
+    #     # [1579,720]
+    #     # [1941, 1059],
+    #     # [2139, 966],
+    #     # [2280,389],
+    #     # [1315,1007],
+    # ), dtype=np.double)
+
+    object_3d_points = points
+    object_2d_point = pixels
     dist_coefs = dist
     # 求解相机位姿
     found, rvec, tvec = cv2.solvePnP(object_3d_points, object_2d_point, mtx, dist_coefs)
@@ -188,8 +203,8 @@ def point2pixel(rotM, tvec,camera_matrix,camXYZ):
 def pixel2point(rotM, tvec,camera_matrix):
     f1 = input("输入图片文件：\n")
     f2 = input("输入点云文件：\n")
-    img = cv2.imread("IMG.jpg")
-    f = laspy.file.File("pointCloud/10.las", mode="r")
+    img = cv2.imread("1.jpg")
+    f = laspy.file.File("pointCloud/11.las", mode="r")
 
     Out_matrix = np.concatenate((rotM, tvec), axis=1)
     pixel = np.dot(camera_matrix, Out_matrix)
